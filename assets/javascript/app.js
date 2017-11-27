@@ -1,6 +1,6 @@
 function playGame() {
 	resetGame();
-	$(document).on("click", "#timer", function() {
+	$(document).on("click", "#question", function() {
 		if(newGame) {
 			drawQuestion();
 		}

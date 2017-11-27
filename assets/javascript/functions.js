@@ -1,14 +1,13 @@
 function resetGame() {
 	// reset all globals
 	newGame = true;
-	numCats = 1;
 	numCorrect = 0;
 	numWrong = 0;
 	numUnanswered = 0;
 	numQs = 0;
 	curScore = 0;
-	curCat = 1;
-	curQ = q1;
+	qTimer = 30;
+	clockRunning = false;
 
 	// empty existing questions from the list
 	curQuestions.splice(0, curQuestions.length);
@@ -27,50 +26,172 @@ function resetGame() {
 }
 
 function drawStart() {
-	$("#title").html("<h1>Disney Trivia</h1>");
-	$("#timer").html("<h2>Start Game</h2>");
+	$("#title").html('<img src="assets/images/logo.png" class="img img-responsive logoImg" alt="Walt Disney Trivia"/>');
+	$("#question").html("<h1>Start Game</h1>");
 }
 
 function drawQuestion() {
 	// indicate the game has started
 	newGame = false;
-	for (numQs = 0; numQs < 5; numQs++) {
-		// set the timeout for 60 seconds
 
-		// set curQ to the object of the current question
-		curQ = Math.floor(Math.random() * curQuestions.length);
-		// setup the question here
-		$("#question").html(curQuestions[curQ].q);
-		$("#option1").html(curQuestions[curQ].a1);
-		$("#option2").html(curQuestions[curQ].a2);
-		$("#option3").html(curQuestions[curQ].a3);
-		$("#option4").html(curQuestions[curQ].a4);
+	// increase the number of questions that have been asked
+	numQs++;
 
-		// start the 30 second timer
-		$("#timer").html("Timer goes here");
+	// draw the timer & score labels
+	$("#lblTimer").html("Time Left:");
+	$("#lblScore").html("Score:");
+	$("#score").html(curScore);
 
-		// delete the used question from the list of available questions
-		curQuestions.splice(curQ, 1);
-		$(document).on("click", ".option", function() {
-			// if a right answer is clicked
-				// change the screen to correct answer
-				// add the points
-				// set a 3 second timer
-				// cancel the 60 second timer
-				// go again
-			// else
-				// change the screen to wrong answer
-				// set a 3 second timer
-				// cancel the 60 second timer
-				// go again
-		});
+	// set curQ to the object of the current question
+	curQ = Math.floor(Math.random() * curQuestions.length);
+
+	// setup the question here
+	$("#question").html(curQuestions[curQ].q);
+
+	// display the possible answers in random order
+	arrangeAnswers();
+
+	// listen for the answers
+	answerQuestion();
+}
+
+function answerQuestion() {
+	// start the 30 second timer
+	$("#timer").html("30");
+	questionTimer();
+
+	// listen for the player to select an answer
+	$(document).on("click", ".option", function() {
+		// stop the timer
+		clearInterval(timerInterval);
+		clockRunning = false;
+
+		// if a right answer is clicked
+		if($(this).text() == curQuestions[curQ].a1) {
+			// change the screen to correct answer
+			$("#option1").html('<h2 id="correct">That\'s Right!!!</h2>');
+			$("#option2").html('You correctly answered');
+			$("#option3").html(curQuestions[curQ].a1);
+			$("#option4").html('<img src="../' + curQuestions[curQ].img + '" class="img img-responsive" />');
+			// increase right answers
+			numCorrect++;
+			// add the points
+			increaseScore = setInterval(scoreCounter, 50);
+		}
+		// else
+		else {
+			// change the screen to wrong answer
+			$("#option1").html('<h2 id="wrong">Wrong!!!</h2>');
+
+			// increase wrong answers
+			numWrong++;
+			wrongAnswer();
+		}
+		postQuestionHandling();
+	});
+}
+
+function wrongAnswer() {
+	// change the screen to wrong answer
+	$("#option2").html("<p>The correct answer was</p>");
+	$("#option3").html(curQuestions[curQ].a1);
+	$("#option4").html('<img src="../' + curQuestions[curQ].img + '" class="img img-responsive" />');
+}
+
+function arrangeAnswers() {
+	var i1 = Math.floor(Math.random() * 4 + 1);
+	var i2 = Math.floor(Math.random() * 4 + 1);
+	while(i2 == i1) {
+		var i2 = Math.floor(Math.random() * 4 + 1);
 	}
-	drawEnd();
+	var i3 = Math.floor(Math.random() * 4 + 1);
+	while(i3 == i1 || i3 == i2) {
+		var i3 = Math.floor(Math.random() * 4 + 1);
+	}
+	var i4 = Math.floor(Math.random() * 4 + 1);
+	while(i4 == i1 || i4 == i2 || i4 == i3) {
+		var i4 = Math.floor(Math.random() * 4 + 1);
+	}
+
+	$("#option" + i1).html(curQuestions[curQ].a1);
+	$("#option" + i2).html(curQuestions[curQ].a2);
+	$("#option" + i3).html(curQuestions[curQ].a3);
+	$("#option" + i4).html(curQuestions[curQ].a4);
+}
+
+function postQuestionHandling() {
+	// disable click event to avoid double handling
+	$(document).off("click", ".option");
+
+	// delete the used question from the list of available questions
+	curQuestions.splice(curQ, 1);
+
+	if(numQs < 5) {
+		// create a new question
+		setTimeout(drawQuestion, 1000 * 4);
+	}
+	else {
+		setTimeout(drawEnd, 1000 * 4);
+	}
+}
+
+function questionTimer() {
+	qTimer = 30;
+	if (!clockRunning) {
+		timerInterval = setInterval(countDown, 1000);
+		clockRunning = true;
+	}
+}
+
+function countDown() {
+	// if there is still time left
+	if(qTimer > 0) {
+		// clock counts down
+		qTimer--;
+
+		// display the new time
+		$("#timer").html(qTimer);
+	}
+	else {
+		// stop the clock
+		clearInterval(timerInterval);
+		clockRunning = false;
+
+		// change the screen to timeout
+		$("#option1").html('<h2 id="wrong">Time\'s Up!!!</h2>');
+
+		// increase number of unanswered questions
+		numUnanswered++;
+		wrongAnswer();
+
+		postQuestionHandling();
+	}
+}
+
+function scoreCounter() {
+	if(qTimer > 0) {
+		qTimer--;
+		$("#timer").html(qTimer);
+		curScore++;
+		$("#score").html(curScore);
+	}
+	else {
+		clearInterval(increaseScore);
+	}
 }
 
 function drawEnd() {
-	$("#question").html("<h1>Game Over!");
-	$("#timer").html("<h2>Play Again?</h2>");
+	$("#question").html("<h1>Play Again?</h1>");
+	$("#option1").html("You got " + numCorrect + " correct.");
+	$("#option2").html("You got " + numWrong + " wrong.");
+	if(numUnanswered > 0) {
+		$("#option3").html("You didn't answer " + numUnanswered + " questions.");		
+	}
+	else {
+		$("#option3").html("You didn't skip any questions.");
+	}
+
+	$("#option4").html(" ");
 	newGame = true;
 	playGame();
 }

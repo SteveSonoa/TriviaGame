@@ -1,3 +1,72 @@
+body {
+	background-color: #1849a6;
+	background-image: url("../images/castle.png");
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	background-attachment: fixed;
+	-webkit-background-size: contain;
+	-moz-background-size: contain;
+	-o-background-size: contain;
+	background-size: contain;
+	color: #fefcf0;
+}
+
 div {
 	text-align: center;
+}
+
+h1 {
+	font-family: 'Mouse Memoirs', sans-serif;
+	font-size: 48px;
+}
+
+.stats {
+	font-family: 'Mouse Memoirs', sans-serif;
+	font-size: 32px;
+}
+
+.option {
+	font-family: 'Indie Flower', cursive;
+	font-size: 32px;
+}
+
+.container {
+	text-align: center;
+}
+
+.logoImg {
+	display: inline-block;
+}
+
+#wrong {
+	font-family: 'Mouse Memoirs', sans-serif;
+	font-size: 48px;
+	color: #ff3333;	
+}
+
+#correct {
+	font-family: 'Mouse Memoirs', sans-serif;
+	font-size: 48px;
+	color: #33ff33;		
+}
+
+#question {
+	font-family: 'Indie Flower', cursive;
+	font-size: 36px;
+	font-weight: bolder;
+
+}
+
+#title {
+	text-align: center;
+}
+
+#lblTimer,
+#lblScore {
+	text-align: right;
+}
+
+#timer,
+#score {
+	text-align: left;
 }

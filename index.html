@@ -15,6 +15,9 @@
 	<!-- Load Font Awesome -->
 	<script src="https://use.fontawesome.com/e14e0f3537.js"></script>
 
+	<!-- Load Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Mouse+Memoirs" rel="stylesheet">
+
 	<!-- Load local files -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<script src="assets/javascript/data.js"></script>
@@ -30,11 +33,18 @@
 			<div class="col-lg-12" id="title"></div>
 		</div>
 		<div class="row">
-			<div class="col-lg-12" id="timer"></div>
+			<div class="container-float" id="timerScoreArea">
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 stats" id="lblTimer"></div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 stats" id="timer"></div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 stats" id="lblScore"></div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 stats" id="score"></div>					
+				</div>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"></div>
-			<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="qContent">
+			<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"></div>
+			<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="qContent">
 				<div class="container-float">
 					<div class="row">
 						<div class="col-lg-12" id="question"></div>
@@ -53,7 +63,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"></div>
+			<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"></div>
 		</div>
 	</div>
 
