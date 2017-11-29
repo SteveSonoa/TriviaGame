@@ -8,12 +8,16 @@ function resetGame() {
 	curScore = 0;
 	qTimer = 30;
 	clockRunning = false;
+	qActive = false;
 
 	// empty existing questions from the list
 	curQuestions.splice(0, curQuestions.length);
 
 	// select new category
-	curCat = Math.floor(Math.random() * numCats + 1);
+	curCat++;
+	if(curCat > numCats) {
+		curCat = 1;
+	}
 
 	// run through all of the available questions
 	for (var i = 0; i < allQuestions.length; i++) {
@@ -30,9 +34,61 @@ function drawStart() {
 	$("#question").html("<h1>Start Game</h1>");
 }
 
-function drawQuestion() {
+function bkgndDivOn(divNum) {
+	if(qActive) {
+		$('html,body').css('cursor','pointer');
+		$("#option" + divNum).css("background-image", "url(assets/images/bkgndDiv" + divNum + ".png)");
+		$("#option" + divNum).css("border", "3px solid #ffffff");
+	}
+}
+
+function bkgndDivOff(divNum) {
+	if(qActive) {
+		$('html,body').css('cursor','default');
+		$("#option" + divNum).css("background-image", "none");
+		$("#option" + divNum).css("border", "0px solid #ffffff");
+	}
+}
+
+function drawQuestion() {	
 	// indicate the game has started
 	newGame = false;
+
+	// activate the question
+	qActive = true;
+
+	// activate the hovering div backgrounds
+	$("#option1").mouseover(function() {
+		bkgndDivOn("1");
+	});
+
+	$("#option1").mouseleave(function() {
+		bkgndDivOff("1");
+	});
+
+	$("#option2").mouseover(function() {
+		bkgndDivOn("2");
+	});
+
+	$("#option2").mouseleave(function() {
+		bkgndDivOff("2");
+	});
+
+	$("#option3").mouseover(function() {
+		bkgndDivOn("3");
+	});
+
+	$("#option3").mouseleave(function() {
+		bkgndDivOff("3");
+	});
+
+	$("#option4").mouseover(function() {
+		bkgndDivOn("4");
+	});
+
+	$("#option4").mouseleave(function() {
+		bkgndDivOff("4");
+	});
 
 	// increase the number of questions that have been asked
 	numQs++;
@@ -65,6 +121,15 @@ function answerQuestion() {
 		// stop the timer
 		clearInterval(timerInterval);
 		clockRunning = false;
+
+		// Disable any div backgrounds that might be enabled
+		bkgndDivOff("1");
+		bkgndDivOff("2");
+		bkgndDivOff("3");
+		bkgndDivOff("4");
+
+		// Question is no longer active
+		qActive = false;
 
 		// if a right answer is clicked
 		if($(this).text() == curQuestions[curQ].a1) {
@@ -126,7 +191,7 @@ function postQuestionHandling() {
 	// delete the used question from the list of available questions
 	curQuestions.splice(curQ, 1);
 
-	if(numQs < 5) {
+	if(numQs < totalQs) {
 		// create a new question
 		setTimeout(drawQuestion, 1000 * 4);
 	}
