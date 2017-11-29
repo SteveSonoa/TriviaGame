@@ -137,7 +137,7 @@ function answerQuestion() {
 			$("#option1").html('<h2 id="correct">That\'s Right!!!</h2>');
 			$("#option2").html('You correctly answered');
 			$("#option3").html(curQuestions[curQ].a1);
-			$("#option4").html('<img src="../' + curQuestions[curQ].img + '" class="img img-responsive" />');
+			$("#option4").html('<img src="' + curQuestions[curQ].img + '" class="answerImg img img-responsive" />');
 			// increase right answers
 			numCorrect++;
 			// add the points
@@ -160,7 +160,7 @@ function wrongAnswer() {
 	// change the screen to wrong answer
 	$("#option2").html("<p>The correct answer was</p>");
 	$("#option3").html(curQuestions[curQ].a1);
-	$("#option4").html('<img src="../' + curQuestions[curQ].img + '" class="img img-responsive" />');
+	$("#option4").html('<img src="' + curQuestions[curQ].img + '" class="answerImg img img-responsive" />');
 }
 
 function arrangeAnswers() {
@@ -222,6 +222,15 @@ function countDown() {
 		clearInterval(timerInterval);
 		clockRunning = false;
 
+		// Disable any div backgrounds that might be enabled
+		bkgndDivOff("1");
+		bkgndDivOff("2");
+		bkgndDivOff("3");
+		bkgndDivOff("4");
+
+		// Question is no longer active
+		qActive = false;
+
 		// change the screen to timeout
 		$("#option1").html('<h2 id="wrong">Time\'s Up!!!</h2>');
 
@@ -249,7 +258,10 @@ function drawEnd() {
 	$("#question").html("<h1>Play Again?</h1>");
 	$("#option1").html("You got " + numCorrect + " correct.");
 	$("#option2").html("You got " + numWrong + " wrong.");
-	if(numUnanswered > 0) {
+	if(numUnanswered == 1) {
+		$("#option3").html("You skipped 1 question.");
+	}
+	else if(numUnanswered > 0) {
 		$("#option3").html("You didn't answer " + numUnanswered + " questions.");		
 	}
 	else {

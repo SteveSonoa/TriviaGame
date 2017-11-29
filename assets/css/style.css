@@ -34,7 +34,8 @@ h1 {
 	text-align: center;
 }
 
-.logoImg {
+.logoImg,
+.answerImg {
 	display: inline-block;
 }
 

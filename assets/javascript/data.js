@@ -156,7 +156,7 @@ var q14 = {
 
 var q15 = {
 	"q": "When did Mickey first appear in color?",
-	"a1": "The Band Concern",
+	"a1": "The Band Concert",
 	"a2": "Steamboat Willie",
 	"a3": "Plane Crazy",
 	"a4": "A Christmas Carol",
@@ -245,11 +245,11 @@ var q23 = {
 };
 
 var q24 = {
-	"q": "Who was the original voice of Mickey Mouse?",
-	"a1": "Walt Disney",
-	"a2": "Jimmy MacDonald",
-	"a3": "Clarence Nash",
-	"a4": "Donald Wilson",
+	"q": "What was the Mickey Mouse Club theme on Fridays?",
+	"a1": "Talent Round-Up",
+	"a2": "Fun With Music",
+	"a3": "Circus",
+	"a4": "Guest Star",
 	"cat": 1,
 	"img": "assets/images/q24.png"
 };
@@ -271,7 +271,7 @@ var q26 = {
 	"a3": "Fantasia",
 	"a4": "Space Jam",
 	"cat": 1,
-	"img": "assets/images/q26.png"
+	"img": "assets/images/q26.gif"
 };
 
 var q27 = {
